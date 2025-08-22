@@ -109,58 +109,93 @@
         }
 }
         #mobile-menu {
-          max-height: 0;
-          overflow: hidden;
-          padding-top: 0;
-          padding-bottom: 0;
-          transition: max-height 0.3s ease, padding 0.3s ease;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s, opacity 0.3s ease, transform 0.3s ease;
         }
 
         #mobile-menu.open {
-          max-height: 500px; /* Or higher if needed */
-          padding-top: 0.75rem;  /* equals to py-3 */
-          padding-bottom: 0.75rem;
-          overflow: visible;
+        max-height: 500px; /* Adjust if needed */
         }
 
+        #mobile-menu:not(.open) {
+        opacity: 0;
+        transform: translateY(0.3rem);
+        }
 
+        #cart-preview.open {
+        max-height: 80vh; 
+        overflow-y: auto;
+        }
+        
+        #cart-preview {
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        overflow: hidden;
+        }
+
+        #cart-preview:not(.open) {
+        opacity: 0;
+        transform: translateY(10rem); /* slide down a bit */
+        pointer-events: none;
+        }
 
     </style>
 </head>
 <body class="bg-gray-50">
     <!-- Navigation -->
-    <nav class="bg-white shadow-md fixed w-full z-50">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-                <span class="text-xl font-bold text-gray-800">Delicious Eats</span>
-            </div>
+   <nav class="bg-white shadow-md fixed w-full z-50">
+  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+    <!-- Logo + Name -->
+    <div class="flex items-center space-x-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+      </svg>
+      <span class="text-xl font-bold text-gray-800 whitespace-nowrap">Delicious Eats</span>
+    </div>
             
             <div class="hidden md:flex items-center space-x-8">
-                <a href="#home" class="text-gray-600 hover:text-orange-500 transition duration-300">Home</a>
-                <a href="#products" class="text-gray-600 hover:text-orange-500 transition duration-300">Menu</a>
-                <a href="#about" class="text-gray-600 hover:text-orange-500 transition duration-300">About Us</a>
-                <a href="#testimonials" class="text-gray-600 hover:text-orange-500 transition duration-300">Reviews</a>
-                <a href="#contact" class="text-gray-600 hover:text-orange-500 transition duration-300">Contact</a>
+                <a href="#home" class="text-gray-600 hover:text-orange-500 transition">Home</a>
+                <a href="#products" class="text-gray-600 hover:text-orange-500 transition">Menu</a>
+                <a href="#about" class="text-gray-600 hover:text-orange-500 transition">About Us</a>
+                <a href="#testimonials" class="text-gray-600 hover:text-orange-500 transition">Reviews</a>
+                <a href="#contact" class="text-gray-600 hover:text-orange-500 transition">Contact</a>
             </div>
             
             <div class="flex items-center space-x-4">
-                <button class="relative" id="cart-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 hover:text-orange-500 transition duration-300" fill="none" viewbox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    <span class="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center" id="cart-count">0</span>
-                </button>
-                <button class="md:hidden" id="mobile-menu-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewbox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
+      <button class="relative" id="cart-button">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 hover:text-orange-500 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+        <span class="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center" id="cart-count">0</span>
+      </button>
+      <button class="md:hidden" id="mobile-menu-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
             </div>
+
+    <!--  TOAST -->
+    <div id="toast" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg hidden z-50">
+    ✅ Added to cart!
+    </div>
+</div>  
+        
+        <!-- Mobile Menu -->
+  <div id="mobile-menu" class="md:hidden bg-white w-full shadow-inner max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+    <!-- Close Button -->
+    <div class="flex flex-col space-y-3">
+    <div class="flex flex-col space-y-3 px-4 pb-4">
+      <a href="#home" class="text-gray-600 hover:text-orange-500 transition pt-4">Home</a>
+      <a href="#products" class="text-gray-600 hover:text-orange-500 transition">Menu</a>
+      <a href="#about" class="text-gray-600 hover:text-orange-500 transition">About Us</a>
+      <a href="#testimonials" class="text-gray-600 hover:text-orange-500 transition">Reviews</a>
+      <a href="#contact" class="text-gray-600 hover:text-orange-500 transition">Contact</a>
+    </div>
+  </div>
+</nav> 
                 <!-- 🛒 CART DROPDOWN -->
-<div id="cart-preview" class="hidden absolute top-10 right-0 w-64 bg-white shadow-lg rounded-lg p-4 z-50 max-h-[80vh] overflow-y-auto">
+<div id="cart-preview" class="fixed top-14 right-4 w-64 bg-white shadow-lg rounded-lg p-4 z-[9999] max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
   <h3 class="text-lg font-semibold mb-2">Cart Items</h3>
   <ul id="cart-items" class="text-sm space-y-2 max-h-32 overflow-y-auto"></ul>
   <div id="cart-total" class="mt-2 text-right font-semibold text-sm text-gray-700">
@@ -194,8 +229,7 @@
     type="text" 
     id="gcash-reference" 
     placeholder="Enter your GCash Ref No." 
-    class="w-full px-3 py-2 border rounded text-sm mt-1 mb-3"
-  />
+    class="w-full px-3 py-2 border rounded text-sm mt-1 mb-3"/>
   </div>
     <button id="checkout-btn" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded text-sm">
       Proceed to Checkout
@@ -204,26 +238,6 @@
     </div>
     </div>
     
-
-<!--  TOAST -->
-<div id="toast" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg hidden z-50">
-  ✅ Added to cart!
-</div>
-
-        </div>  
-        
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="md:hidden bg-white w-full py-3 px-4 shadow-inner z-50 relative max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
-        <div class="flex flex-col space-y-3">
-          <a href="#home" class="text-gray-600 hover:text-orange-500 transition duration-300">Home</a>
-          <a href="#products" class="text-gray-600 hover:text-orange-500 transition duration-300">Menu</a>
-          <a href="#about" class="text-gray-600 hover:text-orange-500 transition duration-300">About Us</a>
-          <a href="#testimonials" class="text-gray-600 hover:text-orange-500 transition duration-300">Reviews</a>
-          <a href="#contact" class="text-gray-600 hover:text-orange-500 transition duration-300">Contact</a>
-        </div>
-    </div>
-    </nav>
-
     <!-- Hero Section -->
     <section id="home" class="hero-pattern pt-24 pb-16 md:pt-32 md:pb-24">
         <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
@@ -1217,18 +1231,8 @@
     }, 2000);
   }
 
-  const cartButton = document.getElementById("cart-button");
-  const cartPreview = document.getElementById("cart-preview");
   const cartItemsList = document.getElementById("cart-items");
 
-  cartButton.addEventListener("click", () => {
-    if (cartPreview.classList.contains("hidden")) {
-      displayCartItems();
-      cartPreview.classList.remove("hidden");
-    } else {
-      cartPreview.classList.add("hidden");
-    }
-  });
 
   function displayCartItems() {
   cartItemsList.innerHTML = "";
@@ -1354,36 +1358,44 @@ paymentMethodSelect.addEventListener("change", () => {
     });
   });
 
+   </script>
 
-
-</script>
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-  const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-  const mobileMenu = document.getElementById("mobile-menu");
 
-  if (!mobileMenuBtn || !mobileMenu) return;
-
-  mobileMenuBtn.addEventListener("click", () => {
-    mobileMenu.classList.toggle("open");
-  });
-});
-
-    document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
+    const cartButton = document.getElementById("cart-button");
+    const cartPreview = document.getElementById("cart-preview");
+    const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
     const paymentMethod = document.getElementById("payment-method");
     const gcashUpload = document.getElementById("gcash-upload");
 
-    if (paymentMethod) {
-        paymentMethod.addEventListener("change", () => {
-        if (paymentMethod.value === "gcash") {
-            gcashUpload.classList.remove("hidden");
-        } else {
-            gcashUpload.classList.add("hidden");
-        }
-        });
-    }
-    });
+cartButton.addEventListener("click", () => {
+  mobileMenu.classList.remove("open"); // close menu
+  cartPreview.classList.toggle("open"); // toggle cart
 
+  if (cartPreview.classList.contains("open")) {
+    displayCartItems(); // refresh items when opening
+  }
+});
+
+
+mobileMenuBtn.addEventListener("click", () => {
+  cartPreview.classList.remove("open"); // close cart
+  mobileMenu.classList.toggle("open");  // toggle menu
+});
+
+  // Payment method
+  if (paymentMethod && gcashUpload) {
+    paymentMethod.addEventListener("change", () => {
+      if (paymentMethod.value === "gcash") {
+        gcashUpload.classList.remove("hidden");
+      } else {
+        gcashUpload.classList.add("hidden");
+      }
+    });
+  }
+});
 </script>
 
     <form id="checkout-form" action="https://formspree.io/f/mgvyqbwp" method="POST" enctype="multipart/form-data" class="hidden">
